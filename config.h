@@ -7,8 +7,8 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "DejaVu Sans Mono:size=14" };
-static const char dmenufont[]       = "JetBrainsMono:size=13";
+static const char *fonts[]          = { "DejaVu Sans Mono:size=14", "JoyPixels:pixelsize=16:antialias=true:autohint=true" };
+static const char dmenufont[]       = {"JetBrainsMono:size=13"};
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -29,9 +29,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
- 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
- 	{ "Gimp",         NULL,      NULL,           0,         1,          0,           0,        -1 },
- 	{ "Firefox",      NULL,      NULL,           1 << 8,    0,          0,          -1,        -1 },
+	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "Gimp",         NULL,      NULL,           0,         1,          0,           0,        -1 },
+	{ "Firefox",      NULL,      NULL,           1 << 8,    0,          0,          -1,        -1 },
 	{ "St",           NULL,      NULL,           0,         0,          1,           0,        -1 },
 	{ "st-256color",  NULL,      NULL,           0,         0,          1,           0,        -1 },
 	{ NULL,           NULL,      "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
@@ -94,8 +94,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_minus,  setgaps,        {.i = +1 } },
-	{ MODKEY,                       XK_equal,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
 	TAGKEYS(                        XK_1,                      0)
