@@ -1,0 +1,58 @@
+From 464e7eee34bce7ff4365fc3be75275cc157608a6 Mon Sep 17 00:00:00 2001
+From: Chris Down <chris@chrisdown.name>
+Date: Mon, 29 Mar 2021 11:49:13 +0000
+Subject: [PATCH] Focus client under mouse on DestroyNotify
+
+The client selected after destroy is somewhat deterministic, but not
+trivial to reason about for a user, especially for long-term windows. As
+such, apply the focus to whichever window the mouse ends up being on top
+of on destroy.
+---
+ dwm.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/dwm.c b/dwm.c
+index 664c527..4bc877d 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -170,6 +170,7 @@ static void focusin(XEvent *e);
+ static void focusmon(const Arg *arg);
+ static void focusstack(const Arg *arg);
+ static Atom getatomprop(Client *c, Atom prop);
++static Client *getclientundermouse(void);
+ static int getrootptr(int *x, int *y);
+ static long getstate(Window w);
+ static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
+@@ -653,6 +654,8 @@ destroynotify(XEvent *e)
+ 
+ 	if ((c = wintoclient(ev->window)))
+ 		unmanage(c, 1);
++
++	focus(getclientundermouse());
+ }
+ 
+ void
+@@ -872,6 +875,20 @@ getatomprop(Client *c, Atom prop)
+ 	return atom;
+ }
+ 
++Client *
++getclientundermouse(void)
++{
++	int ret, di;
++	unsigned int dui;
++	Window child, dummy;
++
++	ret = XQueryPointer(dpy, root, &dummy, &child, &di, &di, &di, &di, &dui);
++	if (!ret)
++		return NULL;
++
++	return wintoclient(child);
++}
++
+ int
+ getrootptr(int *x, int *y)
+ {
+-- 
+2.31.1
+
