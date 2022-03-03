@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int gappx     = 15;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
@@ -34,15 +34,17 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
+	/* class            instance     title   tags mask isfloating  isterminal  noswallow  monitor */
 	
-	{ "Gimp",         NULL,      NULL,           0,         1,          0,           0,        -1 },
-	{ "Microsoft Teams",NULL,    NULL,	     4,		0,	    0,		 0,  	   -1 },
-	{ "Microsoft Teams Notification",NULL,    NULL,	     0,		1,	    0,		 0,  	   -1 },
-	{ "Spotify",	  NULL,	     NULL,	     9,		0,	    0,		 0,  	   -1 },
-	{ "St",           NULL,      NULL,           0,         0,          1,           0,        -1 },
-	{ "st-256color",  NULL,      NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,           NULL,      "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	{ "Gimp",             NULL,	 NULL,		        0,	1,	0,	0,	-1 },
+	{ "WhatsApp",         NULL,	 NULL,	       1 << 2,	1,	0,	0,	-1 },
+	{ "Microsoft Teams",  NULL,	 NULL,	       1 << 3,	0,	0,	0,	-1 },
+	{ "Microsoft Teams Notification",NULL, NULL,	 0,	1,	0,	0,	-1 },
+	{ "TelegramDesktop",  NULL,	 NULL,               0, 1,	0,	0,	-1 },
+	{ NULL,	              NULL, "Spotify",    1 << 8,	0,	0,	0,	-1 },
+	{ "St",               NULL,	 NULL,		        0,	0,	1,	0,	-1 },
+	{ "st-256color",      NULL,	 NULL,		        0,	0,	1,	0,	-1 },
+	{ NULL,               NULL,	 "Event Tester", 0,	0,	0,	1,	-1 }, /* xev */
 };
 
 /* layout(s) */
@@ -78,7 +80,7 @@ static const char *termcmd[]  = { "st", NULL };
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ ALTKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -117,7 +119,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
-	{ MODKEY|ShiftMask, 		XK_q,      quit,           {1} }, 
+	{ ALTKEY|ShiftMask, 	    	XK_q,      quit,           {1} }, 
 };
 
 /* button definitions */
