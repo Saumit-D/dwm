@@ -60,6 +60,9 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 };
 
+/*constant definitions*/
+#define TERMINAL "st"
+
 /* key definitions */
 #define MODKEY Mod4Mask
 #define ALTKEY Mod1Mask
@@ -109,7 +112,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 15 } },
 	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
@@ -128,15 +131,29 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
+
+    //Left  Click - Button 1 toggles layout when click on icon
+    //Right Click - Button 3 perma changes to monocle layout
+    //Middle Click- Button 2 brings the first subwindow in focus when clicked on the title bar
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+	//{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	//{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+
+    { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
 	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
 	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
+    { ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
+    { ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
+
+    { ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
+    { ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e vim ~/.local/src/dwmblocks/config.h") },
+    { ClkClientWin,         MODKEY,         Button2,        setgaps,        {.i =15} },
+
+    //mouse control for floating windows: 1)Move across screen 2)Middle click to toggle floating/default 3)drag and resize window
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+   
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
